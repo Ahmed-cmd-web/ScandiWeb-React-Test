@@ -26,11 +26,9 @@ class ContentBox extends Component {
     });
     return false;
   }
-  shouldComponentUpdate(nextProps) {
+  componentDidMount() {
     // To ensure that products with no attributes are not disabled
-    if (JSON.stringify(nextProps) === JSON.stringify(this.props)) return true;
-    this.setState({ disabled: nextProps.attributes?.length > 0 });
-    return false;
+    this.setState({ disabled: this.props.attributes?.length > 0 });
   }
   componentDidUpdate(_, prevState) {
     if (JSON.stringify(prevState) === JSON.stringify(this.state)) return;
@@ -89,7 +87,7 @@ class ContentBox extends Component {
                 name,
                 brand,
                 prices,
-                img: gallery[0],
+                gallery,
                 attributes,
                 selectedAttrs: _.omit(this.state, "disabled"),
               })
@@ -136,8 +134,7 @@ const AddToCartButton = styled.button`
   &:disabled {
     opacity: 0.7;
     cursor: not-allowed;
-    pointer-events:none ;
-
+    pointer-events: none;
   }
   &:active {
     background-color: darkgreen;

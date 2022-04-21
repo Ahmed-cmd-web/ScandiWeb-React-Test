@@ -68,12 +68,10 @@ class Header extends Component {
               title={<FiShoppingCart />}
               Overlay={this.props.basket.length > 0}
               footer={
-                this.props.basket.length > 0 && (
-                  <Cartdropdownfooter
-                    total={BASKET_TOTAL(this.props.basket, this.props.currency)}
-                    currency={this.props.currency}
-                  />
-                )
+                <Cartdropdownfooter
+                  total={BASKET_TOTAL(this.props.basket, this.props.currency)}
+                  currency={this.props.currency}
+                />
               }
             />
           </div>

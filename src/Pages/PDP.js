@@ -33,6 +33,7 @@ export default class PDP extends Component {
             currentImg: e.data?.product?.gallery && e.data?.product?.gallery[0],
           });
         }
+
         return false;
       })
       .catch((e) => console.log(e));
@@ -63,7 +64,7 @@ export default class PDP extends Component {
                 (this.state.product?.gallery && this.state.product?.gallery[0])
               }
               alt=""
-              style={{ width: "100%", objectFit: "stretch", height: "90%" }}
+              style={{ objectFit: "contain", height: "90%" }}
             />
             {this.Visible && <ContentBox {...this.state?.product} />}
           </Product>

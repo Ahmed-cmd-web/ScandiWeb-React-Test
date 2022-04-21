@@ -25,4 +25,14 @@ When adding products to the cart,the console would set a warning mentioning find
 - To return to home page(Categories Page) just click on the logo.
 - Products with no attributes could be added directly from PLP.
 
+## Bug fixtures
+
+-Added the ability to navigate to category page from any page when the tabs are clicked.
+-Dropdowns remain visible until clicked outside of them.
+-The last row is aligned to the start of the page.
+-Jacket Image resized.
+-Airtag bug fixed.
+-Remove Button added to cart overlay and Mybag products.
+-Image Slider Added.
+
 # Scandiweb's Entry React developer TEST project.

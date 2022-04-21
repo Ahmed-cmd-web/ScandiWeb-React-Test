@@ -40,11 +40,7 @@ class ProductCard extends Component {
       >
         {this.state.clicked && <Navigate to={`/PDP/${id}`} />}
         <Content inStock={inStock}>
-          <ContentImage
-            src={gallery[0]}
-            alt={description}
-            style={{ width: "300px" }}
-          />
+          <ContentImage src={gallery[0]} alt={description} />
         </Content>
         <span style={{ fontWeight: "lighter", marginBottom: "5px" }}>
           {brand}
@@ -67,7 +63,7 @@ class ProductCard extends Component {
                 name,
                 brand,
                 prices,
-                img: gallery[0],
+                gallery,
                 attributes,
                 selectedAttrs: {},
               });
@@ -101,7 +97,7 @@ const ProductCardWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: "center";
-  width: 30%;
+  width: 33%;
   background-color: white;
   min-width: 300px;
   cursor: pointer;
@@ -124,6 +120,7 @@ const ContentImage = styled.img`
   display: flex;
   line-height: 150px;
   justify-content: center;
+  object-fit: contain;
   align-items: center;
 `;
 const Content = styled.div`

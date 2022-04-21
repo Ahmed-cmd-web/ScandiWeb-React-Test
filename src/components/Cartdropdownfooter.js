@@ -49,6 +49,7 @@ const TotalWrapper = styled.div`
   margin: auto;
   padding: 20px;
   display: flex;
+  align-items:center ;
   flex-direction: column;
   justify-content: space-evenly;
 `;

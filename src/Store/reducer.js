@@ -61,6 +61,12 @@ const reducer = createSlice({
       state.basket = [...newArray];
       return state;
     },
+    REMOVE_FROM_BASKET: (state, action) => {
+      let { target, newArray } = BasketCopy(state.basket, action);
+      _.remove(newArray, target);
+      state.basket = [...newArray];
+      return state;
+    },
   },
 });
 
@@ -70,6 +76,7 @@ export const {
   ADD_TO_BASKET,
   INCREMENT_QUANTITY,
   DECREMENT_QUANTITY,
+  REMOVE_FROM_BASKET,
 } = reducer.actions;
 export const StoreState = (state) => state;
 export default reducer.reducer;

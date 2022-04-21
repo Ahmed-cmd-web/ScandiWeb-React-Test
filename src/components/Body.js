@@ -59,9 +59,10 @@ const BodyWrapper = styled.div`
   height: fit-content;
 `;
 const ProductsWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  justify-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
 `;

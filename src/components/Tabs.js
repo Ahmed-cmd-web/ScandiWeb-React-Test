@@ -7,12 +7,14 @@ import colors from "../content/colors";
 import { SET_ACTIVE } from "../Store/reducer";
 import { Wrapper } from "./Header";
 import { connect } from "react-redux";
+import { Navigate } from "react-router-dom";
 class Tabs extends Component {
   constructor(props) {
     super(props);
     this.state = {
       content: [],
       loading: false,
+      clicked: false,
       active: this.content && this.content[0].name,
     };
   }
@@ -35,6 +37,10 @@ class Tabs extends Component {
         {this.state.content.map((e, i) => (
           <Tab
             onClick={() => {
+              if (window.location.pathname !== "/")
+                this.setState({ clicked: true }, () => {
+                  this.setState({ clicked: false });
+                });
               this.props.SET_ACTIVE(e.name);
               this.setState({
                 active: e.name,
@@ -46,6 +52,7 @@ class Tabs extends Component {
             {e.name.toUpperCase()}
           </Tab>
         ))}
+        {this.state.clicked && <Navigate to={"/"} />}
       </Wrapper>
     );
   }

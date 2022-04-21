@@ -1,12 +1,18 @@
 /** @format */
 
 import React, { Component } from "react";
+import { FaTrash } from "react-icons/fa";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { INCREMENT_QUANTITY, DECREMENT_QUANTITY } from "../Store/reducer";
+import {
+  INCREMENT_QUANTITY,
+  DECREMENT_QUANTITY,
+  REMOVE_FROM_BASKET,
+} from "../Store/reducer";
 import CurrentCurrency from "../utility/Currentcurrency";
 import { ContentBoxSpan } from "./ContentBox";
 import Customizecomponent from "./Customizecomponent";
+import ImageSlider from "./ImageSlider";
 
 class CartComponent extends Component {
   render() {
@@ -15,7 +21,7 @@ class CartComponent extends Component {
       prices,
       currency,
       name,
-      img,
+      gallery,
       brand,
       attributes,
       selectedAttrs,
@@ -95,6 +101,7 @@ class CartComponent extends Component {
                 -
               </CartButton>
             </QuantityContainer>
+
             <div
               style={{
                 width: "100%",
@@ -102,15 +109,24 @@ class CartComponent extends Component {
                 justifyContent: "center",
               }}
             >
-              <img
-                src={img}
-                alt=""
-                style={{
-                  width: "80%",
+              <ImageSlider
+                gallery={gallery}
+                ImgStyle={{
+                  width: "100%",
+                  height: "100%",
                   objectFit: "contain",
                 }}
               />
             </div>
+            <FaTrash
+              onClick={() =>
+                this.props.REMOVE_FROM_BASKET({
+                  id,
+                  selectedAttrs,
+                })
+              }
+              style={{ paddingTop: "5px", cursor: "pointer" }}
+            />
           </RightSide>
         </CartComponentContent>
       </CartComponentWrapper>
@@ -157,5 +173,5 @@ const CartButton = styled.button`
 `;
 
 const mapStateToProps = ({ currency }) => ({ currency });
-const dispatch = { INCREMENT_QUANTITY, DECREMENT_QUANTITY };
+const dispatch = { INCREMENT_QUANTITY, DECREMENT_QUANTITY, REMOVE_FROM_BASKET };
 export default connect(mapStateToProps, dispatch)(CartComponent);

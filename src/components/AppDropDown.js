@@ -1,17 +1,41 @@
 /** @format */
 
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import styled from "styled-components";
-import { FiChevronDown } from "react-icons/fi";
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { connect } from "react-redux";
 import { SET_CURRENCY } from "../Store/reducer";
 import Badge from "react-badger";
 class AppDropDown extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: false,
+    };
+    this.ref = createRef();
+    this.handleOutsideClick = this.handleOutsideClick.bind(this);
+  }
+  componentDidMount() {
+    document.addEventListener("click", this.handleOutsideClick);
+  }
+  componentWillUnmount() {
+    document.removeEventListener("click", this.handleOutsideClick);
+  }
+  handleOutsideClick = (e) => {
+    if (this.ref && !this.ref.current.contains(e.target))
+      this.setState({ visible: false });
+  };
+
   render() {
     return (
       <div>
         <DrpContent>
-          <DrpTitleWrapper>
+          <DrpTitleWrapper
+            onClick={(e) => {
+              e.stopPropagation();
+              this.setState({ visible: !this.state.visible });
+            }}
+          >
             <span>
               {this.props.title}
               {this.props.badge && (
@@ -25,10 +49,23 @@ class AppDropDown extends Component {
                 </Badge>
               )}
             </span>
-            {this.props.chevron && <FiChevronDown />}
+            {this.props.chevron &&
+              (this.state.visible ? <FiChevronUp /> : <FiChevronDown />)}
           </DrpTitleWrapper>
 
-          <DrpWrapper>
+          <DrpWrapper
+            ref={this.ref}
+            style={
+              this.state.visible
+                ? {
+                    display: "flex",
+                    flexDirection: "column",
+                  }
+                : {
+                    display: "none",
+                  }
+            }
+          >
             {this.props.list.map((e, i) =>
               this.props?.customComponent ? (
                 <this.props.customComponent {...e} key={i} />
@@ -41,7 +78,7 @@ class AppDropDown extends Component {
             {this.props?.footer && <Footer>{this.props?.footer}</Footer>}
           </DrpWrapper>
         </DrpContent>
-        {this.props.Overlay && <Overlay />}
+        {this.state.visible && <Overlay />}
       </div>
     );
   }
@@ -59,9 +96,9 @@ const DrpWrapper = styled.div`
   border: 1px solid gainsboro;
 `;
 const Overlay = styled.div`
-  display: none;
+  display: flex;
   position: fixed;
-  inset:80px 0 0 0 ;
+  inset: 80px 0 0 0;
   z-index: 2;
   background-color: rgba(57, 55, 72, 0.22);
 `;
@@ -70,13 +107,6 @@ const DrpContent = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  &:hover > ${DrpWrapper} {
-    display: flex;
-    flex-direction: column;
-  }
-  &:hover ~ ${Overlay} {
-    display: flex;
-  }
 `;
 const DrpTitleWrapper = styled.div`
   display: flex;
