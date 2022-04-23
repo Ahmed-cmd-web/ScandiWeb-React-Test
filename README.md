@@ -34,5 +34,8 @@ When adding products to the cart,the console would set a warning mentioning find
 - Airtag bug fixed.
 - Remove Button added to cart overlay and Mybag products.
 - Image Slider Added.
+- Popup for all products has been added.
+- ScrollBars reduced.
+- Currency switcher design adjusted.
 
 # Scandiweb's Entry React developer TEST project.

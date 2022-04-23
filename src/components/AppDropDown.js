@@ -86,6 +86,7 @@ class AppDropDown extends Component {
 
 const DrpWrapper = styled.div`
   max-height: 400px;
+  width: max-content;
   z-index: 999;
   display: none;
   position: absolute;
