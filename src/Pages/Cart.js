@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import CartComponent from "../components/CartComponent";
+import totalQuantity from "../utility/BasketQuantity";
 import BASKET_TOTAL from "../utility/BasketTotal";
 
 class Cart extends Component {
@@ -12,10 +13,6 @@ class Cart extends Component {
       <CartWrapper>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <h1 style={{ fontFamily: "Raleway", fontWeight: "bolder" }}>Cart</h1>
-          <h1 style={{ fontFamily: "Raleway", fontWeight: "lighter" }}>
-            Total:{this.props.currency.symbol}
-            {BASKET_TOTAL(this.props.basket, this.props.currency)}
-          </h1>
         </div>
         {this.props?.basket?.map((e, i) => (
           <CartComponent
@@ -29,6 +26,19 @@ class Cart extends Component {
             {...e}
           />
         ))}
+        <div
+          style={{
+            borderTop: "0.5px solid rgba(229, 229, 229, 1)",
+          }}
+        >
+          <h3>Tax: $15.00</h3>
+          <h3>Qty: {totalQuantity(this.props.basket)}</h3>
+          <h2 style={{ fontFamily: "Raleway" }}>
+            Total: {this.props.currency.symbol}
+            {BASKET_TOTAL(this.props.basket, this.props.currency) +
+              15}
+          </h2>
+        </div>
       </CartWrapper>
     );
   }

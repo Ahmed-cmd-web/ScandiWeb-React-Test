@@ -9,22 +9,16 @@ import colors from "../content/colors";
 import parse from "html-react-parser";
 import { ADD_TO_BASKET } from "../Store/reducer";
 import _ from "lodash";
+import handleSelection from "../utility/handleSelection";
+import isAllSelected from "../utility/isAllSelected";
 class ContentBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
       disabled: true,
     };
-    this.handleSelection = this.handleSelection.bind(this);
-  }
-  handleSelection(property, value, index) {
-    this.setState({
-      [property]: {
-        value,
-        index,
-      },
-    });
-    return false;
+    this.handleSelection = handleSelection.bind(this);
+    this.isAllSelected = isAllSelected.bind(this);
   }
   componentDidMount() {
     // To ensure that products with no attributes are not disabled
@@ -32,8 +26,7 @@ class ContentBox extends Component {
   }
   componentDidUpdate(_, prevState) {
     if (JSON.stringify(prevState) === JSON.stringify(this.state)) return;
-    for (let p of this.props?.attributes) if (!this.state[p.name]) return;
-    this.setState({ disabled: false });
+    isAllSelected(this.props?.attributes, this.state, (e) => this.setState(e));
   }
 
   render() {
@@ -69,7 +62,11 @@ class ContentBox extends Component {
         {attributes?.map((e, i) => (
           <Customizecomponent
             ContainerStyle={{ margin: "10px 0px", width: "100%" }}
-            onSelection={this.handleSelection}
+            onSelection={(property, value, index) =>
+              this.handleSelection(property, value, index, (e) =>
+                this.setState(e)
+              )
+            }
             key={i}
             {...e}
           />
@@ -117,7 +114,7 @@ export const ContentBoxSpan = styled.span`
   font-family: Raleway;
 `;
 
-const AddToCartButton = styled.button`
+export const AddToCartButton = styled.button`
   width: 100%;
   height: 50px;
   display: flex;

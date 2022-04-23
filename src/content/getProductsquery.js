@@ -9,23 +9,32 @@ const getProductsquery = (category) => gql`
         }) {
           products {
             id
-            gallery
-            inStock
             name
+            inStock
+            category
             brand
-            attributes{
-              id
-            }
-            prices {
-              amount
-              currency {
-                label
-                symbol
-              }
+            gallery
+            description
+            prices{
+            amount
+            currency{
+              label
+              symbol
             }
           }
+            attributes {
+              name
+              items {
+                displayValue
+                value
+                id
+              }
+              type
+            }
+          }
+          }
         }
-      }
+
     `;
 
 export default getProductsquery;

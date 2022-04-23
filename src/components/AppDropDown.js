@@ -78,7 +78,7 @@ class AppDropDown extends Component {
             {this.props?.footer && <Footer>{this.props?.footer}</Footer>}
           </DrpWrapper>
         </DrpContent>
-        {this.state.visible && <Overlay />}
+        {this.state.visible && this.props.Overlay && <Overlay />}
       </div>
     );
   }
@@ -121,7 +121,7 @@ const DrpItem = styled.span`
   min-width: max-content;
   border-bottom: 0.5px solid gainsboro;
   &:hover {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: #eeeeee;
   }
 `;
 const Footer = styled.div`

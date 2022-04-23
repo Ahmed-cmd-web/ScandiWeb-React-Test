@@ -66,7 +66,7 @@ class Header extends Component {
               badgeContent={this.props.basket.length}
               list={this.props.basket}
               title={<FiShoppingCart />}
-              Overlay={this.props.basket.length > 0}
+              Overlay={true}
               footer={
                 <Cartdropdownfooter
                   total={BASKET_TOTAL(this.props.basket, this.props.currency)}

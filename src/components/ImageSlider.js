@@ -9,6 +9,7 @@ export default class ImageSlider extends Component {
     super(props);
     this.state = {
       index: 0,
+      intervalId: 0,
     };
     this.handleChangeF = this.handleChangeF.bind(this);
     this.handleChangeB = this.handleChangeB.bind(this);
@@ -29,17 +30,25 @@ export default class ImageSlider extends Component {
     }
     this.setState({ index: this.state.index - 1 });
   };
-  mounted = false;
-
   componentDidMount() {
-    this.mounted = true;
-    if (this.mounted) setInterval(this.handleChangeF, 2000);
+    const intervalId = setInterval(this.handleChangeF, 5000);
+    this.setState({ intervalId });
+  }
+  // cleanup on unmount
+  componentWillUnmount() {
+    clearInterval(this.state.intervalId);
   }
 
   render() {
     return (
       <div
-        style={{ position: "relative", display: "flex", alignItems: "center" }}
+        style={{
+          position: "relative",
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "center",
+          margin: "0px 10px",
+        }}
       >
         <img
           style={this.props.ImgStyle}
@@ -47,12 +56,18 @@ export default class ImageSlider extends Component {
           alt=""
         />
         {this.props.gallery?.length > 1 && (
-          <NavigationButton style={{ left: 0 }} onClick={this.handleChangeB}>
+          <NavigationButton
+            style={{ right: "25px" }}
+            onClick={this.handleChangeB}
+          >
             <FiChevronLeft />
           </NavigationButton>
         )}
         {this.props.gallery?.length > 1 && (
-          <NavigationButton onClick={this.handleChangeF} style={{ right: 0 }}>
+          <NavigationButton
+            onClick={this.handleChangeF}
+            style={{ right: "0%" }}
+          >
             <FiChevronRight />
           </NavigationButton>
         )}
@@ -63,15 +78,10 @@ export default class ImageSlider extends Component {
 
 const NavigationButton = styled.span`
   position: absolute;
-  z-index: 9999;
-  top: 50%;
-  color: black;
-  font-size: 20px;
+  bottom: 0%;
+  font-size: 18px;
   display: flex;
   align-items: center;
-  &:hover {
-    border-radius: 99px;
-    color: white;
-    background-color: black;
-  }
+  color: white;
+  background-color: black;
 `;

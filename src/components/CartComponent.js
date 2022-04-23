@@ -10,11 +10,18 @@ import {
   REMOVE_FROM_BASKET,
 } from "../Store/reducer";
 import CurrentCurrency from "../utility/Currentcurrency";
+import AppAccordion from "./AppAccordion";
 import { ContentBoxSpan } from "./ContentBox";
 import Customizecomponent from "./Customizecomponent";
 import ImageSlider from "./ImageSlider";
 
 class CartComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      active: -1,
+    };
+  }
   render() {
     const {
       id,
@@ -59,18 +66,30 @@ class CartComponent extends Component {
                 let newObject = { ...e };
                 newObject["active"] = selectedAttrs[e.name].index;
                 return (
-                  <Customizecomponent
-                    titleStyle={{ fontSize: 14 }}
-                    BoxStyle={{
-                      height: "20px",
-                      width: "20px",
-                      fontSize: "60%",
+                  <AppAccordion
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      i === this.state.active
+                        ? this.setState({ active: -1 })
+                        : this.setState({ active: i });
                     }}
-                    ContainerStyle={{ padding: "0px", flex: 1 }}
+                    active={i === this.state.active}
+                    title={newObject.name}
                     key={i}
-                    changeable={false}
-                    {...newObject}
-                  />
+                  >
+                    <Customizecomponent
+                      withTitle={false}
+                      TitleStyle={{ fontSize: 14 }}
+                      BoxStyle={{
+                        height: "20px",
+                        width: "20px",
+                        fontSize: "60%",
+                      }}
+                      ContainerStyle={{ padding: "0px", flex: 1 }}
+                      changeable={false}
+                      {...newObject}
+                    />
+                  </AppAccordion>
                 );
               })}
             </div>
@@ -104,7 +123,6 @@ class CartComponent extends Component {
 
             <div
               style={{
-                width: "100%",
                 display: "flex",
                 justifyContent: "center",
               }}
@@ -112,7 +130,7 @@ class CartComponent extends Component {
               <ImageSlider
                 gallery={gallery}
                 ImgStyle={{
-                  width: "100%",
+                  width: "120px",
                   height: "100%",
                   objectFit: "contain",
                 }}
@@ -135,7 +153,7 @@ class CartComponent extends Component {
 }
 
 const CartComponentWrapper = styled.div`
-  width: 100%;
+  width: 500px;
   height: 150px;
   margin: 10px 0px;
 `;
@@ -151,7 +169,8 @@ const LeftSide = styled.div`
 `;
 const RightSide = styled.div`
   display: flex;
-  width: 200px;
+  min-width: 200px;
+  justify-content: center;
 `;
 const QuantityContainer = styled.div`
   display: flex;

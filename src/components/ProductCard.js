@@ -5,14 +5,31 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import { Navigate } from "react-router-dom";
 import CurrentCurrency from "../utility/Currentcurrency";
-import { BsCart2 } from "react-icons/bs";
 import { ADD_TO_BASKET } from "../Store/reducer";
+import Popup, { Container } from "./Popup";
+import { AddToCartButton } from "./ContentBox";
+import Customizecomponent from "./Customizecomponent";
+import _ from "lodash";
+import handleSelection from "../utility/handleSelection";
+import isAllSelected from "../utility/isAllSelected";
 class ProductCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
       clicked: false,
+      disabled: true,
+      PopupActive: false,
     };
+    this.handleSelection = handleSelection.bind(this);
+    this.isAllSelected = isAllSelected.bind(this);
+  }
+  componentDidMount() {
+    // To ensure that products with no attributes are not disabled
+    this.setState({ disabled: this.props.attributes?.length > 0 });
+  }
+  componentDidUpdate(_, prevState) {
+    if (JSON.stringify(prevState) === JSON.stringify(this.state)) return;
+    isAllSelected(this.props?.attributes, this.state, (e) => this.setState(e));
   }
   render() {
     const {
@@ -54,10 +71,14 @@ class ProductCard extends Component {
           {prices && UsedCurrency.currency.symbol}
           {prices && UsedCurrency.amount}
         </span>
-        {attributes && attributes.length === 0 && inStock && (
-          <HoveringCartIcon
-            onClick={(e) => {
-              e.stopPropagation();
+        <Popup
+          inStock={inStock}
+          onClick={() => {
+            if (
+              !this.state.PopupActive &&
+              attributes?.length === 0 &&
+              inStock
+            ) {
               ADD_TO_BASKET({
                 id,
                 name,
@@ -65,33 +86,67 @@ class ProductCard extends Component {
                 prices,
                 gallery,
                 attributes,
-                selectedAttrs: {},
+                selectedAttrs: _.omit(
+                  this.state,
+                  "disabled",
+                  "PopupActive",
+                  "clicked"
+                ),
               });
+              return;
+            }
+            this.setState({ PopupActive: !this.state.PopupActive });
+          }}
+          active={this.state.PopupActive}
+        >
+          {attributes?.map((e, i) => (
+            <Customizecomponent
+              ContainerStyle={{
+                width: "100%",
+                overflowX: "hidden",
+                height: "min-content",
+              }}
+              BoxStyle={{
+                fontSize: "70%",
+              }}
+              TitleStyle={{ fontSize: "100%" }}
+              onSelection={(property, value, index) =>
+                this.handleSelection(property, value, index, (e) =>
+                  this.setState(e)
+                )
+              }
+              key={i}
+              {...e}
+            />
+          ))}
+
+          <AddToCartButton
+            onClick={() => {
+              ADD_TO_BASKET({
+                id,
+                name,
+                brand,
+                prices,
+                gallery,
+                attributes,
+                selectedAttrs: _.omit(
+                  this.state,
+                  "disabled",
+                  "PopupActive",
+                  "clicked"
+                ),
+              });
+              this.setState({ PopupActive: !this.state.PopupActive });
             }}
+            disabled={inStock ? this.state.disabled : true}
           >
-            <BsCart2 color="white" size={"60%"} />
-          </HoveringCartIcon>
-        )}
+            {inStock ? "ADD TO CART" : "OUT OF STOCK"}
+          </AddToCartButton>
+        </Popup>
       </ProductCardWrapper>
     );
   }
 }
-
-const HoveringCartIcon = styled.span`
-  display: none;
-  position: absolute;
-  border-radius: 999px;
-  background-color: #5ece7b;
-  width: 35px;
-  height: 35px;
-  right: 5%;
-  bottom: 5%;
-  z-index: 999;
-  &:active {
-    opacity: 0.5;
-  }
-`;
-
 const ProductCardWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -108,7 +163,7 @@ const ProductCardWrapper = styled.div`
     box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
     z-index: 20;
   }
-  &:hover ${HoveringCartIcon} {
+  &:hover ${Container} {
     display: flex;
     justify-content: center;
     align-items: center;

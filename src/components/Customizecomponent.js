@@ -14,17 +14,20 @@ export default class Customizecomponent extends Component {
   render() {
     const {
       type,
+      withTitle = true,
       name,
       items,
       onSelection,
-      titleStyle,
+      TitleStyle,
       ContainerStyle,
       BoxStyle,
       changeable = true,
     } = this.props;
     return (
       <div style={ContainerStyle}>
-        <ContentBoxSpan style={titleStyle}>{name}:</ContentBoxSpan>
+        {withTitle && (
+          <ContentBoxSpan style={TitleStyle}>{name}:</ContentBoxSpan>
+        )}
         <div
           style={{
             width: "100%",
