@@ -42,9 +42,12 @@ export default class Popup extends Component {
   }
 }
 
+// #efeff4!important
+// #5AC8FA;
+// #8e8e93!important
 const PopupContainer = styled.div(
   ({ active }) => `
-  background-color: lightskyblue;
+  background-color:#efeff4 !important ;
   display: flex;
   min-width: ${active ? "calc(100% +20px)" : "5%"};
   min-height: ${active ? "calc(100% +20px)" : "5%"};
