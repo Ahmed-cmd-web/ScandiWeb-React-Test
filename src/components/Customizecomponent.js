@@ -73,6 +73,7 @@ const SwatchBox = styled.div`
   width: 50px;
   height: 50px;
   margin-right: 10px;
+  border: 0.5px solid black;
   background-color: ${({ value }) => value};
   opacity: ${({ active }) => (active ? 0.3 : 1)};
   &:hover {
