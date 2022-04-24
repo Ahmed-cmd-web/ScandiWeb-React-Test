@@ -3,9 +3,6 @@
 import React, { Component } from "react";
 import Menu, { Divider, MenuItem } from "rc-menu";
 export default class AppMenuItem extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <Menu>

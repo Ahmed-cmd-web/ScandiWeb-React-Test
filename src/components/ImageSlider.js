@@ -43,34 +43,36 @@ export default class ImageSlider extends Component {
     return (
       <div
         style={{
-          position: "relative",
           display: "flex",
           justifyContent: "flex-end",
           alignItems: "center",
           margin: "0px 10px",
+          height: "100%",
         }}
       >
-        <img
-          style={this.props.ImgStyle}
-          src={this.props.gallery[this.state.index]}
-          alt=""
-        />
-        {this.props.gallery?.length > 1 && (
-          <NavigationButton
-            style={{ right: "25px" }}
-            onClick={this.handleChangeB}
-          >
-            <FiChevronLeft />
-          </NavigationButton>
-        )}
-        {this.props.gallery?.length > 1 && (
-          <NavigationButton
-            onClick={this.handleChangeF}
-            style={{ right: "0%" }}
-          >
-            <FiChevronRight />
-          </NavigationButton>
-        )}
+        <div style={{ position: "relative", width: "fit-content" }}>
+          <img
+            style={this.props.ImgStyle}
+            src={this.props.gallery[this.state.index]}
+            alt=""
+          />
+          {this.props.gallery?.length > 1 && (
+            <NavigationButton
+              style={{ right: "25px" }}
+              onClick={this.handleChangeB}
+            >
+              <FiChevronLeft />
+            </NavigationButton>
+          )}
+          {this.props.gallery?.length > 1 && (
+            <NavigationButton
+              onClick={this.handleChangeF}
+              style={{ right: "0%" }}
+            >
+              <FiChevronRight />
+            </NavigationButton>
+          )}
+        </div>
       </div>
     );
   }
@@ -78,7 +80,7 @@ export default class ImageSlider extends Component {
 
 const NavigationButton = styled.span`
   position: absolute;
-  bottom: 0%;
+  bottom: 2%;
   font-size: 18px;
   display: flex;
   align-items: center;

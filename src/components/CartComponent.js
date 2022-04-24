@@ -125,12 +125,13 @@ class CartComponent extends Component {
               style={{
                 display: "flex",
                 justifyContent: "center",
+                alignItems: "flex-end",
               }}
             >
               <ImageSlider
                 gallery={gallery}
                 ImgStyle={{
-                  width: "120px",
+                  maxWidth: "100px",
                   height: "100%",
                   objectFit: "contain",
                 }}
@@ -170,7 +171,7 @@ const LeftSide = styled.div`
 const RightSide = styled.div`
   display: flex;
   min-width: 200px;
-  justify-content: center;
+  justify-content: flex-end;
 `;
 const QuantityContainer = styled.div`
   display: flex;
