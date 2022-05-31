@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import CartComponent from "./CartComponent";
 import Cartdropdownfooter from "./Cartdropdownfooter";
 import BASKET_TOTAL from "../utility/BasketTotal";
+import totalQuantity from "../utility/BasketQuantity";
 
 class Header extends Component {
   constructor(props) {
@@ -63,10 +64,11 @@ class Header extends Component {
             <AppDropDown
               customComponent={CartComponent}
               badge={this.props.basket.length > 0}
-              badgeContent={this.props.basket.length}
+              badgeContent={totalQuantity(this.props.basket)}
               list={this.props.basket}
               title={<FiShoppingCart />}
               Overlay={true}
+              drpTitle={`My Bag, ${totalQuantity(this.props.basket)} items`}
               footer={
                 <Cartdropdownfooter
                   total={BASKET_TOTAL(this.props.basket, this.props.currency)}

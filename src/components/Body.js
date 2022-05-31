@@ -60,9 +60,8 @@ const BodyWrapper = styled.div`
 `;
 const ProductsWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 33%));
   justify-items: center;
-  justify-content: center;
   width: 100%;
   height: 100%;
 `;
@@ -71,3 +70,6 @@ const mapStateToProps = (state) => ({
   title: state.active,
 });
 export default connect(mapStateToProps)(Body);
+
+
+

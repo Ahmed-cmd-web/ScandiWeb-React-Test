@@ -116,6 +116,7 @@ export const ContentBoxSpan = styled.span`
 
 export const AddToCartButton = styled.button`
   width: 100%;
+  max-width: 300px;
   height: 50px;
   display: flex;
   justify-content: center;
